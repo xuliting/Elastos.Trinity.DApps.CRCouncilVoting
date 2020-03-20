@@ -2,7 +2,7 @@
   <ion-grid class="container ion-no-padding">
     <ion-list lines="none" class="candidate-list" [class.blur]="castingVote">
       <ion-virtual-scroll [items]="candidatesService.candidates"  approxItemHeight="240px">
-        <ion-item color="primary"  *virtualItem="let candidate" (click)="addCandidate(candidate.cid)">
+        <ion-item [color]="!selectedCandidates.includes(candidate.cid) ? 'primary' : 'tertiary'" *virtualItem="let candidate" (click)="addCandidate(candidate.cid)">
           <ion-grid class="ion-no-padding">
             <ion-row class="ion-no-padding">
               <ion-col size="2.25" class="img-container">
@@ -11,16 +11,14 @@
               </ion-col>
               <ion-col size="8.25">
                 <ion-label>
-                  <h4>{{ candidate.nickname }}</h4>
+                  <h4 [class.selected]="selectedCandidates.includes(candidate.cid)">{{ candidate.nickname }}</h4>
                   <p>
-                    <span>
-                      <ion-icon name="pin"></ion-icon> {{ candidate.location }}
-                    </span>
-                    &nbsp; {{ candidate.votes }} votes
+                    <ion-icon name="pin"></ion-icon> {{ candidate.location }} &nbsp;
+                    <span class="votes">{{ candidate.votes }}</span> votes
                   </p>
                 </ion-label>
               </ion-col>
-              <ion-col *ngIf="selectedCandidates.includes(candidate.cid)"size="1.5" class="check-container">
+              <ion-col *ngIf="selectedCandidates.includes(candidate.cid)" size="1.5" class="check-container">
                 <ion-icon name="checkmark"></ion-icon>
               </ion-col>
             </ion-row>

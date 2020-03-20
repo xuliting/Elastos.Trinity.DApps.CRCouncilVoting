@@ -10,6 +10,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: 'menu/home', loadChildren: './pages/home/home.module#HomePageModule' },
   { path: 'menu/vote', loadChildren: './pages/vote/vote.module#VotePageModule' },
+  { path: 'menu/history', loadChildren: './pages/history/history.module#HistoryPageModule' },
 ];
 
 @NgModule({
