@@ -25,7 +25,8 @@ export class VotePage implements OnInit {
 
   ionViewWillEnter() {
     titleBarManager.setTitle('Candidates');
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
+    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.HOME);
+    // titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
     titleBarManager.setBackgroundColor("#181d20");
   }
 
