@@ -5,6 +5,8 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { IonicImageLoader } from 'ionic-image-loader';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 import { MyApp } from './app.component';
 
@@ -20,7 +22,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    IonicModule.forRoot()
+    IonicModule.forRoot(),
+    IonicImageLoader.forRoot()
   ],
   bootstrap: [MyApp],
   entryComponents: [
@@ -30,6 +33,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     StatusBar,
     SplashScreen,
     Platform,
+    WebView,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: ErrorHandler, useClass: ErrorHandler}
   ]

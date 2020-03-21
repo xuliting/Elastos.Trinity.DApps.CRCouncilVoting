@@ -10,6 +10,7 @@ export class Candidate {
     public votes: string,
     public registerheight: number,
     public cancelheight: number,
-    public index: number
+    public index: number,
+    public imageUrl: any
   ) {}
 }

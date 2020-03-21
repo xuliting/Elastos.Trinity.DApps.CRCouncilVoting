@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CandidatesService } from 'src/app/services/candidates.service';
 import { ToastController } from '@ionic/angular';
+import { Candidate } from 'src/app/models/candidates.model';
 
 declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
@@ -17,8 +18,12 @@ export class VotePage implements OnInit {
     public toastCtrl: ToastController
   ) { }
 
-  selectedCandidates: string[] = [];
-  castingVote = false;
+  public selectedCandidates: string[] = [];
+  public castingVote = false;
+  public votesCasted = false;
+  public candidate: Candidate
+  public showCandidate = false;
+  public candidateIndex: number;
 
   ngOnInit() {
   }
@@ -45,14 +50,28 @@ export class VotePage implements OnInit {
   }
 
   castVote() {
+    this.castingVote = false;
+    this.votesCasted = false;
+
     if (this.selectedCandidates.length > 0) {
       this.castingVote = true;
       setTimeout(() => {
         this.castingVote = false;
-      }, 2000);
+        this.votesCasted = true;
+      }, 4000);
     } else {
       this.noVotesToast();
     }
+  }
+
+  fixVotes(votes: string) {
+    return parseInt(votes);
+  }
+
+  _showCandidate(index: number, can: Candidate) {
+    this.showCandidate = !this.showCandidate;
+    this.candidateIndex = index;
+    this.candidate = can;
   }
 
   async noVotesToast() {

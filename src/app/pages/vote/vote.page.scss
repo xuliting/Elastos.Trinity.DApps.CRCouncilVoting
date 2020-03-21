@@ -8,17 +8,25 @@
     background: #181d20;
 
     ion-item {
-      --inner-padding-end: 0px;
-      --padding-start: 0px;
       margin: 6px 0;
-      padding: 0px;
+      --padding-start: 0px;
+
+      .rank-container {
+        font-size: 12px !important;
+        font-weight: 600;
+        padding-right: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
 
       .img-container {
         display: flex;
         justify-content: center;
         align-items: center;
 
-        ion-img {
+        ion-img, img {
+          border-radius: 100%;
           width: 40px;
           height: 40px;
         }
@@ -27,10 +35,31 @@
       .check-container {
         display: flex;
         align-items: center;
+        justify-content: flex-start;
 
         ion-icon {
           width: 30px;
           height: 30px;
+        }
+
+        ion-checkbox {
+          --background: #181d20;
+        }
+
+        .custom-checkbox {
+          background: #181d20;
+          border: 1px solid #1de9b6;;
+          border-radius: 5px;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          ion-icon {
+            width: 20px;
+            height: 20px;
+          }
         }
       }
 
@@ -76,6 +105,7 @@
   }
 }
 
+// Show vote button if candidates are selected //
 .ballot-box {
   position: fixed;
   bottom: 0;
@@ -84,34 +114,70 @@
   width: 100%;
   height: 15%;
   background: linear-gradient(to left, #434d72 0%, #1de9b6 100%);
-  border-top-left-radius: 75px;
-  border-top-right-radius: 75px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-/*
-  .cast-btn {
-    background: white;
-    height: 80%;
-    width: 40%;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  } */
+  animation: candidatesSelected;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+
+  @keyframes candidatesSelected {
+    0% { bottom: -100px }
+    100% { bottom: 0px }
+  }
 
   ion-img {
     width: 75px;
     height: 75px;
-    // transform: rotate(270deg);
+    position: relative;
+    transform: rotate(180deg);
+  }
+
+  // Move logo from left to right if votes are casting //
+  .voting-logo {
+    animation: voting-logo;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+
+    @keyframes voting-logo {
+      0% { left: 0px }
+      100% { left: 250px }
+    }
   }
 
   h1 {
     margin: 25px;
     color: white;
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 26px;
+    font-weight: 900;
     letter-spacing: 1.4px;
+  }
+
+  // Fade initial title if votes are casting ..
+  .voting-title {
+    animation: voting-title;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+
+    @keyframes voting-title {
+      0% { opacity: 1 }
+      100% { opacity: 0 }
+    }
+  }
+
+  // Show post title if votes are casted
+  .votes-casted-title {
+    margin-left: 12.5px;
+    animation: voted-title;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+
+    @keyframes voted-title {
+      0% { opacity: 0 }
+      100% { opacity: 1 }
+    }
   }
 }
 
