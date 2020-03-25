@@ -10,81 +10,48 @@
     ion-item {
       margin: 6px 0;
       --padding-start: 0px;
+      --padding-end: 0px;
+      --inner-padding-end: 0px;
 
-      .rank-container {
-        font-size: 12px !important;
-        font-weight: 600;
-        padding-right: 1px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-      }
+      ion-grid {
+        padding: 10px;
 
-      .img-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        ion-img, img {
-          border-radius: 100%;
-          width: 40px;
-          height: 40px;
-        }
-      }
-
-      .check-container {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-
-        ion-icon {
-          width: 30px;
-          height: 30px;
-        }
-
-        ion-checkbox {
-          --background: #181d20;
-        }
-
-        .custom-checkbox {
-          background: #181d20;
-          border: 1px solid #1de9b6;;
-          border-radius: 5px;
-          width: 20px;
-          height: 20px;
+        .candidate-title {
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
           align-items: center;
 
-          ion-icon {
-            width: 20px;
-            height: 20px;
-          }
-        }
-      }
-
-      ion-label {
-        margin-top: 6px;
-
-        h4, p {
-          font-weight: 600;
-          color: white;
-        }
-
-        h4 {
-          font-size: 14px;
-        }
-
-        p {
-          font-size: 10px !important;
-          color: white !important;
-
-          ion-icon {
-            color: #1de9b6;
+          ion-img, img {
+            border-radius: 100%;
+            width: 40px;
+            height: 40px;
           }
 
-          .votes {
-            font-size: 12px;
+          ion-label {
+            margin-left: 10px;
+
+            h4 {
+              font-weight: 600;
+              font-size: 12px;
+              color: #1de9b6;
+            }
+          }
+        }
+
+        .candidate-input {
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+
+          ion-input {
+            border-bottom: 1px solid  #1de9b6;
+          }
+
+          ion-label {
+            margin-left: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
           }
         }
       }
@@ -95,9 +62,7 @@
     position: fixed;
     z-index: 2;
     top: 40%;
-    left: 45%;
-    width: 100px;
-    height: 100px;
+    left: 47%;
 
     ion-spinner {
       transform: scale(2);
@@ -183,9 +148,4 @@
 
 .blur {
   filter: blur(2px);
-}
-
-.selected {
-  color: #1de9b6 !important;
-  font-weight: 700;
 }

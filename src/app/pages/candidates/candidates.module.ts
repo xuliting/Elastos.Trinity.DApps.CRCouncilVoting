@@ -4,17 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
+import { IonicImageLoader } from 'ionic-image-loader';
 
-import { MenuPage } from './menu.page';
+import { CandidatesPage } from './candidates.page';
+import { CandidateSliderComponent } from 'src/app/components/candidate-slider/candidate-slider.component';
 
 const routes: Routes = [
   {
-    path: 'menu',
-    component: MenuPage,
-    children: [
-      { path: 'home', loadChildren: '../home/home.module#HomePageModule' },
-      { path: 'vote', loadChildren: '../vote/vote.module#VotePageModule' },
-    ]
+    path: '',
+    component: CandidatesPage
   }
 ];
 
@@ -23,8 +21,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicImageLoader,
     RouterModule.forChild(routes)
   ],
-  declarations: [MenuPage]
+  declarations: [CandidatesPage, CandidateSliderComponent]
 })
-export class MenuPageModule {}
+export class CandidatesPageModule {}

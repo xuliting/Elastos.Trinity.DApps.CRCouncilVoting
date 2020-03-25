@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicImageLoader } from 'ionic-image-loader';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
@@ -23,7 +24,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     HttpClientModule,
     AppRoutingModule,
     IonicModule.forRoot(),
-    IonicImageLoader.forRoot()
+    IonicImageLoader.forRoot(),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [MyApp],
   entryComponents: [

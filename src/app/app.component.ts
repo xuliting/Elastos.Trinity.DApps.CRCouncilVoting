@@ -23,7 +23,7 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       candidatesService.init();
-      router.navigate(["menu/vote"]);
+      router.navigate(["candidates"]);
     });
   }
 }

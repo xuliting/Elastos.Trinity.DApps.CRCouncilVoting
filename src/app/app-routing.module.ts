@@ -1,16 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-/* With bottom tabs */
-/* const routes: Routes = [
-  { path: '', loadChildren: './pages/menu/menu.module#MenuPageModule' }
-]; */
-
-/* Without bottom tabs */
 const routes: Routes = [
-  { path: 'menu/home', loadChildren: './pages/home/home.module#HomePageModule' },
-  { path: 'menu/vote', loadChildren: './pages/vote/vote.module#VotePageModule' },
-  { path: 'menu/history', loadChildren: './pages/history/history.module#HistoryPageModule' },
+  { path: 'home', loadChildren: './pages/home/home.module#HomePageModule' },
+  { path: 'candidates', loadChildren: './pages/candidates/candidates.module#CandidatesPageModule' },
+  { path: 'vote', loadChildren: './pages/vote/vote.module#VotePageModule' },
+  { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule' },
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CandidatesService } from 'src/app/services/candidates.service';
 import { ToastController } from '@ionic/angular';
-import { Candidate } from 'src/app/models/candidates.model';
+import { StorageService } from 'src/app/services/storage.service';
 
 declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
@@ -15,23 +15,19 @@ export class VotePage implements OnInit {
 
   constructor(
     public candidatesService: CandidatesService,
-    public toastCtrl: ToastController
+    private storageService: StorageService,
+    private toastCtrl: ToastController
   ) { }
 
-  public selectedCandidates: string[] = [];
   public castingVote = false;
   public votesCasted = false;
-  public candidate: Candidate
-  public showCandidate = false;
-  public candidateIndex: number;
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle('Candidates');
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.HOME);
-    // titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
+    titleBarManager.setTitle('My Candidates');
+    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
     titleBarManager.setBackgroundColor("#181d20");
   }
 
@@ -39,23 +35,24 @@ export class VotePage implements OnInit {
     appManager.setVisible("show");
   }
 
-  addCandidate(cid: string) {
-    let targetId = this.selectedCandidates.find((id) => id === cid);
-    if (!targetId) {
-      this.selectedCandidates.push(cid);
-    } else {
-      this.selectedCandidates = this.selectedCandidates.filter((id) => id !== cid);
-    }
-    console.log('Selected candidates', this.selectedCandidates);
-  }
-
   castVote() {
-    this.castingVote = false;
-    this.votesCasted = false;
+    let votedCandidates = [];
+    this.candidatesService.selectedCandidates.map((candidate) => {
+      if(candidate.userVotes && candidate.userVotes > 0) {
+        votedCandidates.push({
+          // Modify for intent specifications
+          id: candidate.cid,
+          votes: candidate.userVotes
+        });
+      }
+    });
 
-    if (this.selectedCandidates.length > 0) {
+    if(votedCandidates.length > 0) {
+      this.storageService.setVotes(this.candidatesService.selectedCandidates);
       this.castingVote = true;
+      this.votesCasted = false;
       setTimeout(() => {
+        console.log('Voted candidates ', + votedCandidates)
         this.castingVote = false;
         this.votesCasted = true;
       }, 4000);
@@ -64,19 +61,9 @@ export class VotePage implements OnInit {
     }
   }
 
-  fixVotes(votes: string) {
-    return parseInt(votes);
-  }
-
-  _showCandidate(index: number, can: Candidate) {
-    this.showCandidate = !this.showCandidate;
-    this.candidateIndex = index;
-    this.candidate = can;
-  }
-
   async noVotesToast() {
     const toast = await this.toastCtrl.create({
-      header: 'You did not select any candidates!',
+      header: 'Please pledge some ELA to your candidates',
       position: 'top',
       mode: 'ios',
       color: 'success',

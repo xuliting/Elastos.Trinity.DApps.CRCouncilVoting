@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { IonicImageLoader } from 'ionic-image-loader';
 
 import { VotePage } from './vote.page';
-import { CandidateSliderComponent } from 'src/app/components/candidate-slider/candidate-slider.component';
 
 const routes: Routes = [
   {
@@ -24,6 +23,6 @@ const routes: Routes = [
     IonicImageLoader,
     RouterModule.forChild(routes)
   ],
-  declarations: [VotePage, CandidateSliderComponent]
+  declarations: [VotePage]
 })
 export class VotePageModule {}
