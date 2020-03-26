@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Candidate } from '../models/candidates.model';
 import { StorageService } from './storage.service';
+import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
+
+declare let appManager: AppManagerPlugin.AppManager;
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +13,9 @@ import { StorageService } from './storage.service';
 export class CandidatesService {
 
   constructor(
+    private platform: Platform,
     private http: HttpClient,
+    private router: Router,
     private storageService: StorageService
   ) { }
 
@@ -21,6 +27,19 @@ export class CandidatesService {
   init() {
     this.fetchCandidates();
     this.getSelectedCandidates();
+
+     if (this.platform.platforms().indexOf("cordova") >= 0) {
+      console.log("Listening to intent events");
+      appManager.setListener((msg) => {
+        this.onMessageReceived(msg);
+      });
+    }
+  }
+
+  onMessageReceived(msg: AppManagerPlugin.ReceivedMessage) {
+    if (msg.message === "navback") {
+      this.router.navigate(['candidates']);
+    }
   }
 
   getSelectedCandidates() {
