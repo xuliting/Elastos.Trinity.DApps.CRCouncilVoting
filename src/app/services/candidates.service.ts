@@ -69,6 +69,10 @@ export class CandidatesService {
       this.candidates = res.result.crcandidatesinfo;
       this.totalVotes = parseFloat(res.result.totalvotes);
       this.getLogos();
+
+      this.candidates.forEach((candidate) => {
+        candidate.userVotes = 0
+      });
     }, (err) => {
       console.error(err);
     });

@@ -21,6 +21,8 @@ export class VotePage implements OnInit {
 
   public castingVote = false;
   public votesCasted = false;
+  public totalEla: number = 1000;
+  private votedEla: number = 0;
 
   ngOnInit() {
   }
@@ -47,7 +49,11 @@ export class VotePage implements OnInit {
       }
     });
 
-    if(votedCandidates.length > 0) {
+    if(votedCandidates.length === 0) {
+     this.toastErr('Please pledge some ELA to your candidates')
+    } else if (this.votedEla > this.totalEla) {
+      this.toastErr('You are not allowed to pledge more ELA than you own');
+    } else {
       this.storageService.setVotes(this.candidatesService.selectedCandidates);
       this.castingVote = true;
       this.votesCasted = false;
@@ -56,17 +62,28 @@ export class VotePage implements OnInit {
         this.castingVote = false;
         this.votesCasted = true;
       }, 4000);
-    } else {
-      this.noVotesToast();
     }
   }
 
-  async noVotesToast() {
+  setInputDefault(event) {
+    console.log(event);
+  }
+
+  getElaRemainder() {
+    let votedEla = 0;
+    this.candidatesService.selectedCandidates.map((can) => {
+      votedEla += can.userVotes;
+    });
+    this.votedEla = votedEla;
+    return this.totalEla - votedEla;
+  }
+
+  async toastErr(msg) {
     const toast = await this.toastCtrl.create({
-      header: 'Please pledge some ELA to your candidates',
+      header: msg,
       position: 'top',
       mode: 'ios',
-      color: 'success',
+      color: 'primary',
       duration: 2000
     });
     toast.present();
