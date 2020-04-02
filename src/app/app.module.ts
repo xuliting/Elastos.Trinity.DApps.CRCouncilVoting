@@ -13,6 +13,7 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     CommonModule,
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     IonicModule.forRoot(),
     IonicImageLoader.forRoot(),

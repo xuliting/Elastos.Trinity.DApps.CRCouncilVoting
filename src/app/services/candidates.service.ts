@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Candidate } from '../models/candidates.model';
 import { StorageService } from './storage.service';
@@ -16,19 +16,19 @@ export class CandidatesService {
     private platform: Platform,
     private http: HttpClient,
     private router: Router,
+    private zone: NgZone,
     private storageService: StorageService
   ) { }
 
   public candidates: Candidate[] = [];
   public totalVotes: number = 0;
-
   public selectedCandidates: Candidate[] = [];
 
   init() {
     this.fetchCandidates();
     this.getSelectedCandidates();
 
-     if (this.platform.platforms().indexOf("cordova") >= 0) {
+    if (this.platform.platforms().indexOf("cordova") >= 0) {
       console.log("Listening to intent events");
       appManager.setListener((msg) => {
         this.onMessageReceived(msg);
@@ -38,7 +38,9 @@ export class CandidatesService {
 
   onMessageReceived(msg: AppManagerPlugin.ReceivedMessage) {
     if (msg.message === "navback") {
-      this.router.navigate(['candidates']);
+      this.zone.run(() => {
+        this.router.navigate(['candidates']);
+      });
     }
   }
 
@@ -70,9 +72,9 @@ export class CandidatesService {
       this.totalVotes = parseFloat(res.result.totalvotes);
       this.getLogos();
 
-      this.candidates.forEach((candidate) => {
+  /*     this.candidates.forEach((candidate) => {
         candidate.userVotes = 0
-      });
+      }); */
     }, (err) => {
       console.error(err);
     });

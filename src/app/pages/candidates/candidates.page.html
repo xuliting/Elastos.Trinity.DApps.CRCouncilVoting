@@ -6,7 +6,7 @@
       [candidateIndex]="candidateIndex"
     >
     </app-candidate-slider>
-    <ion-list lines="none" class="candidate-list">
+    <ion-list lines="none" class="candidate-list" [class.blur]="showCandidate">
       <ion-virtual-scroll [items]="candidatesService.candidates"  approxItemHeight="240px">
         <ion-item class="candidate" [color]="!candidateIsSelected(candidate) ? 'primary' : 'tertiary'" *virtualItem="let candidate">
           <ion-grid class="ion-no-padding">
