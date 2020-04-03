@@ -73,29 +73,31 @@ export class VotePage implements OnInit {
       this.castingVote = true;
       this.votesCasted = false;
 
-      appManager.sendIntent(
-        'crmembervote',
-        { votes: votedCandidates },
-        {},
-        (res) => {
-          this.zone.run(() => {
-            if(res.result.txid === null ) {
-              this.voteFailedToast('Txid returned null');
-            } else {
-              console.log('Insent sent sucessfully', res);
+      setTimeout(() => {
+        appManager.sendIntent(
+          'crmembervote',
+          { votes: votedCandidates },
+          {},
+          (res) => {
+            this.zone.run(() => {
+              if(res.result.txid === null ) {
+                this.voteFailedToast('Vote processing was incomplete');
+              } else {
+                console.log('Insent sent sucessfully', res);
+                this.castingVote = false;
+                this.votesCasted = true;
+                this.voteSuccessToast(res.result.txid);
+              }
+            });
+          }, (err) => {
+            this.zone.run(() => {
+              console.log('Intent sent failed', err);
               this.castingVote = false;
-              this.votesCasted = true;
-              this.voteSuccessToast(res.result.txid);
-            }
-          });
-        }, (err) => {
-          this.zone.run(() => {
-            console.log('Intent sent failed', err);
-            this.castingVote = false;
-            this.voteFailedToast(err);
-          });
-        }
-      );
+              this.voteFailedToast(err);
+            });
+          }
+        );
+      }, 2000);
     }
   }
 
@@ -117,9 +119,10 @@ export class VotePage implements OnInit {
   async toastErr(msg: string) {
     const toast = await this.toastCtrl.create({
       header: msg,
-      position: 'top',
+      position: 'middle',
       mode: 'ios',
-      color: 'primary',
+      color: 'tertiary',
+      cssClass: 'customToast',
       duration: 2000
     });
     toast.present();
@@ -128,11 +131,11 @@ export class VotePage implements OnInit {
   async voteSuccessToast(txid: string) {
     const toast = await this.toastCtrl.create({
       mode: 'ios',
-      position: 'top',
+      position: 'middle',
       header: 'Voted successfully casted!',
       message: 'Txid:' + txid.slice(0,30) + '...',
-      color: "primary",
-      cssClass: 'toaster',
+      color: 'tertiary',
+      cssClass: 'customToast',
       buttons: [
         {
           text: 'Okay',
@@ -150,10 +153,11 @@ export class VotePage implements OnInit {
   async voteFailedToast(err: string) {
     const toast = await this.toastCtrl.create({
       mode: 'ios',
-      header: 'There was an error with casting votes...',
+      position: 'middle',
+      header: 'There was an error with casting votes..',
       message: err,
-      color: "primary",
-      cssClass: 'toaster',
+      color: 'tertiary',
+      cssClass: 'customToast',
       buttons: [
         {
           text: 'Okay',

@@ -90,3 +90,7 @@
 .blur {
   filter: blur(5px);
 }
+
+.customToast {
+  --border-radius: 25px;
+}
