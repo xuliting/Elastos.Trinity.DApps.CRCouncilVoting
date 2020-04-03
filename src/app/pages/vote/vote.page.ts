@@ -25,7 +25,7 @@ export class VotePage implements OnInit {
 
   public castingVote = false;
   public votesCasted = false;
-  public totalEla: number = 1000;
+  public totalEla: number = 0;
   private votedEla: number = 0;
 
   ngOnInit() {
@@ -48,6 +48,11 @@ export class VotePage implements OnInit {
     appManager.setVisible("show");
   }
 
+  ionViewDidLeave() {
+    this.castingVote = false;
+    this.votesCasted = false;
+  }
+
   /****************** Cast Votes *******************/
   castVote() {
     let votedCandidates = {};
@@ -58,7 +63,7 @@ export class VotePage implements OnInit {
       }
     });
 
-    if(!votedCandidates) {
+    if(Object.keys(votedCandidates).length === 0) {
      this.toastErr('Please pledge some ELA to your candidates')
     } else if (this.votedEla > this.totalEla) {
       this.toastErr('You are not allowed to pledge more ELA than you own');
@@ -74,10 +79,14 @@ export class VotePage implements OnInit {
         {},
         (res) => {
           this.zone.run(() => {
-            console.log('Insent sent sucessfully', res);
-            this.castingVote = false;
-            this.votesCasted = true;
-            this.voteSuccessToast(res.result.txid);
+            if(res.result.txid === null ) {
+              this.voteFailedToast('Txid returned null');
+            } else {
+              console.log('Insent sent sucessfully', res);
+              this.castingVote = false;
+              this.votesCasted = true;
+              this.voteSuccessToast(res.result.txid);
+            }
           });
         }, (err) => {
           this.zone.run(() => {
@@ -121,7 +130,7 @@ export class VotePage implements OnInit {
       mode: 'ios',
       position: 'top',
       header: 'Voted successfully casted!',
-      message: txid,
+      message: 'Txid:' + txid.slice(0,30) + '...',
       color: "primary",
       cssClass: 'toaster',
       buttons: [
@@ -150,7 +159,8 @@ export class VotePage implements OnInit {
           text: 'Okay',
           handler: () => {
             toast.dismiss();
-            this.router.navigate(['/candidates']);
+            appManager.close();
+            // this.router.navigate(['/candidates']);
           }
         }
       ]
