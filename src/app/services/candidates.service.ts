@@ -4,6 +4,7 @@ import { Candidate } from '../models/candidates.model';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
+import { Selected } from '../models/selected.model';
 
 declare let appManager: AppManagerPlugin.AppManager;
 
@@ -22,7 +23,7 @@ export class CandidatesService {
 
   public candidates: Candidate[] = [];
   public totalVotes: number = 0;
-  public selectedCandidates: Candidate[] = [];
+  public selectedCandidates: Selected[] = [];
 
   init() {
     this.fetchCandidates();
@@ -71,10 +72,6 @@ export class CandidatesService {
       this.candidates = res.result.crcandidatesinfo;
       this.totalVotes = parseFloat(res.result.totalvotes);
       this.getLogos();
-
-  /*     this.candidates.forEach((candidate) => {
-        candidate.userVotes = 0
-      }); */
     }, (err) => {
       console.error(err);
     });

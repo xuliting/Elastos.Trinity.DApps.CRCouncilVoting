@@ -3,6 +3,7 @@ import { ToastController } from '@ionic/angular';
 import { CandidatesService } from 'src/app/services/candidates.service';
 import { Candidate } from 'src/app/models/candidates.model';
 import { Router, NavigationExtras } from '@angular/router';
+import { StorageService } from 'src/app/services/storage.service';
 
 declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
@@ -16,6 +17,7 @@ export class CandidatesPage implements OnInit {
 
   constructor(
     public candidatesService: CandidatesService,
+    private storage: StorageService,
     private router: Router,
     private toastCtrl: ToastController,
     private zone: NgZone
@@ -27,9 +29,6 @@ export class CandidatesPage implements OnInit {
 
   ngOnInit() {
     this.showCandidate = false;
-    this.candidatesService.candidates.forEach((can) => {
-      can.userVotes = 0;
-    });
   }
 
   ionViewWillEnter() {
@@ -42,11 +41,20 @@ export class CandidatesPage implements OnInit {
     appManager.setVisible("show");
   }
 
+  ionViewDidLeave() {
+
+  }
+
   /****************** Select Candidate *******************/
   addCandidate(candidate: Candidate) {
     let targetCandidate = this.candidatesService.selectedCandidates.find((_candidate) => _candidate.cid === candidate.cid);
     if (!targetCandidate) {
-      this.candidatesService.selectedCandidates.push(candidate);
+      this.candidatesService.selectedCandidates.push({
+        cid: candidate.cid,
+        nickname: candidate.nickname,
+        imageUrl: candidate.imageUrl,
+        userVotes: 0
+      });
     } else {
       this.candidatesService.selectedCandidates = this.candidatesService.selectedCandidates.filter((_candidate) => _candidate.cid !== candidate.cid);
     }
@@ -103,5 +111,9 @@ export class CandidatesPage implements OnInit {
       message: 'ELA balance is needed to assess your voting rights'
     });
     toast.present();
+  }
+
+  deleteStorage() {
+    this.storage.setVotes([]);
   }
 }

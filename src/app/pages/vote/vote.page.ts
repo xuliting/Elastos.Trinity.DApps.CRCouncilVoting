@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { CandidatesService } from 'src/app/services/candidates.service';
 import { ToastController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
@@ -19,7 +19,8 @@ export class VotePage implements OnInit {
     private storageService: StorageService,
     private toastCtrl: ToastController,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private zone: NgZone
   ) { }
 
   public castingVote = false;
@@ -28,6 +29,7 @@ export class VotePage implements OnInit {
   private votedEla: number = 0;
 
   ngOnInit() {
+    console.log('My Candidates', this.candidatesService.selectedCandidates);
     this.route.queryParams.subscribe(params => {
       if (params) {
         this.totalEla = Math.floor(parseInt(params.elaamount) / 100000000);
@@ -38,7 +40,7 @@ export class VotePage implements OnInit {
 
   ionViewWillEnter() {
     titleBarManager.setTitle('My Candidates');
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
+    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.CLOSE);
     titleBarManager.setBackgroundColor("#181d20");
   }
 
@@ -48,48 +50,43 @@ export class VotePage implements OnInit {
 
   /****************** Cast Votes *******************/
   castVote() {
-    let votedCandidates = [];
-    let castedKeys = [];
+    let votedCandidates = {};
     this.candidatesService.selectedCandidates.map((candidate) => {
       if(candidate.userVotes && candidate.userVotes > 0) {
-        votedCandidates.push({
-          // Modify for intent specifications
-          id: candidate.cid,
-          votes: candidate.userVotes
-        });
-        castedKeys.push(candidate.cid);
+        let _candidate = { [candidate.cid] : candidate.userVotes.toString() }
+        votedCandidates = { ...votedCandidates, ..._candidate }
       }
     });
 
-    if(votedCandidates.length === 0) {
+    if(!votedCandidates) {
      this.toastErr('Please pledge some ELA to your candidates')
     } else if (this.votedEla > this.totalEla) {
       this.toastErr('You are not allowed to pledge more ELA than you own');
     } else {
+      console.log(votedCandidates);
       this.storageService.setVotes(this.candidatesService.selectedCandidates);
       this.castingVote = true;
       this.votesCasted = false;
 
       appManager.sendIntent(
-        'crvotingtransaction',
-        { keys: (castedKeys) },
+        'crmembervote',
+        { votes: votedCandidates },
         {},
         (res) => {
-          console.log('Insent sent sucessfully', res);
-          this.castingVote = false;
-          this.votesCasted = true;
-          this.voteSuccessToast();
+          this.zone.run(() => {
+            console.log('Insent sent sucessfully', res);
+            this.castingVote = false;
+            this.votesCasted = true;
+            this.voteSuccessToast(res.result.txid);
+          });
         }, (err) => {
-          console.log('Intent sent failed', err);
-          this.castingVote = false;
-          this.voteFailedToast(err);
+          this.zone.run(() => {
+            console.log('Intent sent failed', err);
+            this.castingVote = false;
+            this.voteFailedToast(err);
+          });
         }
       );
-     /*  setTimeout(() => {
-        console.log('Voted candidates ', + votedCandidates)
-        this.castingVote = false;
-        this.votesCasted = true;
-      }, 4000); */
     }
   }
 
@@ -108,7 +105,7 @@ export class VotePage implements OnInit {
   }
 
   /****************** Toasts/Alerts *******************/
-  async toastErr(msg) {
+  async toastErr(msg: string) {
     const toast = await this.toastCtrl.create({
       header: msg,
       position: 'top',
@@ -119,10 +116,12 @@ export class VotePage implements OnInit {
     toast.present();
   }
 
-  async voteSuccessToast() {
+  async voteSuccessToast(txid: string) {
     const toast = await this.toastCtrl.create({
       mode: 'ios',
+      position: 'top',
       header: 'Voted successfully casted!',
+      message: txid,
       color: "primary",
       cssClass: 'toaster',
       buttons: [
@@ -130,7 +129,8 @@ export class VotePage implements OnInit {
           text: 'Okay',
           handler: () => {
             toast.dismiss();
-            this.router.navigate(['/candidates']);
+            appManager.close();
+            // this.router.navigate(['/candidates']);
           }
         }
       ]
