@@ -144,8 +144,8 @@ export class VotePage implements OnInit, OnDestroy {
           text: 'Okay',
           handler: () => {
             toast.dismiss();
-            appManager.close();
-            // this.router.navigate(['/candidates']);
+            // appManager.close();
+            this.router.navigate(['/candidates']);
           }
         }
       ]
@@ -166,8 +166,8 @@ export class VotePage implements OnInit, OnDestroy {
           text: 'Okay',
           handler: () => {
             toast.dismiss();
-            appManager.close();
-            // this.router.navigate(['/candidates']);
+            // appManager.close();
+            this.router.navigate(['/candidates']);
           }
         }
       ]
