@@ -94,3 +94,14 @@
 .customToast {
   --border-radius: 25px;
 }
+
+.spinner-container {
+  position: fixed;
+  z-index: 2;
+  top: 40%;
+  left: 47%;
+
+  ion-spinner {
+    transform: scale(2);
+  }
+}

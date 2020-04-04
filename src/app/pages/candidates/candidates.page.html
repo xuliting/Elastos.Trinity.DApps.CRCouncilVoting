@@ -53,4 +53,9 @@
     <ion-icon name="checkmark"></ion-icon>
   </div>
 
+  <div class="spinner-container" *ngIf="candidatesService.candidates.length === 0">
+    <ion-spinner name="bubbles" color="success"></ion-spinner>
+  </div>
+
 </ion-content>
+

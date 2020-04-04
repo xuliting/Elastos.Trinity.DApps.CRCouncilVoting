@@ -1,8 +1,9 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { CandidatesService } from 'src/app/services/candidates.service';
 import { ToastController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Selected } from 'src/app/models/selected.model';
 
 declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
@@ -12,7 +13,7 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
   templateUrl: './vote.page.html',
   styleUrls: ['./vote.page.scss'],
 })
-export class VotePage implements OnInit {
+export class VotePage implements OnInit, OnDestroy {
 
   constructor(
     public candidatesService: CandidatesService,
@@ -38,9 +39,12 @@ export class VotePage implements OnInit {
     });
   }
 
+  ngOnDestroy(){
+  }
+
   ionViewWillEnter() {
     titleBarManager.setTitle('My Candidates');
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.CLOSE);
+    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
     titleBarManager.setBackgroundColor("#181d20");
   }
 
@@ -48,9 +52,9 @@ export class VotePage implements OnInit {
     appManager.setVisible("show");
   }
 
-  ionViewDidLeave() {
-    this.castingVote = false;
-    this.votesCasted = false;
+  ionViewWillLeave() {
+    this.candidatesService.candidates = [];
+    this.candidatesService.init();
   }
 
   /****************** Cast Votes *******************/
@@ -107,12 +111,11 @@ export class VotePage implements OnInit {
   }
 
   getElaRemainder() {
-    let votedEla = 0;
+    this.votedEla = 0;
     this.candidatesService.selectedCandidates.map((can) => {
-      votedEla += can.userVotes;
+      this.votedEla += can.userVotes;
     });
-    this.votedEla = votedEla;
-    return this.totalEla - votedEla;
+    return this.totalEla - this.votedEla;
   }
 
   /****************** Toasts/Alerts *******************/

@@ -83,21 +83,27 @@ export class CandidatesService {
         can.imageUrl = '/assets/candidates/mikes.jpg';
         can.location = 'United States'
       }
+      if (can.nickname === 'SunnyFengHan') {
+        can.location = 'United States'
+      }
       if (can.nickname === 'Orchard Trinity') {
         can.imageUrl = '/assets/candidates/orchard.png';
         can.location = 'United Kingdom'
       }
       if (can.nickname === 'The Strawberry Council') {
         can.location = 'United States'
+        can.imageUrl = '/assets/candidates/strawberry.png';
       }
       if (can.nickname === 'Ela Cloud (亦来云盘）') {
         can.location = 'China'
       }
       if (can.nickname === 'dingning（丁宁）') {
         can.location = 'China'
+        can.imageUrl = '/assets/candidates/dingning.png';
       }
       if (can.nickname === 'Tyro lee小黑狼') {
         can.location = 'China'
+        can.imageUrl = '/assets/candidates/tyrolee.png';
       }
       if (can.nickname === 'zhangqing（张青）') {
         can.location = 'China'
@@ -107,27 +113,33 @@ export class CandidatesService {
       }
       if (can.nickname === 'Zhang Feng') {
         can.location = 'China'
+        can.imageUrl = '/assets/candidates/zhangfeng.png';
       }
       if (can.nickname === 'Alex Shipp') {
         can.location = 'United States'
+        can.imageUrl = '/assets/candidates/alexshipp.png';
       }
       if (can.nickname === 'CR Malaysia') {
         can.location = 'Malaysia'
       }
       if (can.nickname === 'Adem Bilican') {
         can.location = 'Switzerland'
+        can.imageUrl = '/assets/candidates/adembilican.png';
       }
       if (can.nickname === 'Bitwork Council Committee') {
         can.location = 'Hong Kong'
+        can.imageUrl = '/assets/candidates/bitwork.png';
       }
       if (can.nickname === '中文社区管理员团队') {
         can.location = 'China'
       }
       if (can.nickname === 'Anders Alm') {
         can.location = 'Norway'
+        can.imageUrl = '/assets/candidates/andersalm.png';
       }
       if (can.nickname === 'ELAFISH') {
         can.location = 'Canada'
+        can.imageUrl = '/assets/candidates/elafish.png';
       }
     });
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { CandidatesService } from 'src/app/services/candidates.service';
 import { Candidate } from 'src/app/models/candidates.model';
 import { Router, NavigationExtras } from '@angular/router';
@@ -20,6 +20,7 @@ export class CandidatesPage implements OnInit {
     private storage: StorageService,
     private router: Router,
     private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private zone: NgZone
   ) { }
 
@@ -35,6 +36,7 @@ export class CandidatesPage implements OnInit {
     titleBarManager.setTitle('Candidates');
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.HOME);
     titleBarManager.setBackgroundColor("#181d20");
+    titleBarManager.setupMenuItems([{key: 'registerApp', iconPath: '/assets/images/register.png', title: 'Register Capsule'}], this.askToRegister);
   }
 
   ionViewDidEnter() {
@@ -42,7 +44,11 @@ export class CandidatesPage implements OnInit {
   }
 
   ionViewDidLeave() {
+  }
 
+  askToRegister = () => {
+    console.log('Menu item clicked');
+    this.registerAppAlert();
   }
 
   /****************** Select Candidate *******************/
@@ -111,6 +117,34 @@ export class CandidatesPage implements OnInit {
       message: 'ELA balance is needed to assess your voting rights'
     });
     toast.present();
+  }
+
+  async registerAppAlert() {
+    const alert = await this.alertCtrl.create({
+      mode: 'ios',
+      header: 'Would you like to add CRC Voting to your profile?',
+      message: 'Registering a capsule will allow your followers via Contacts to effortlessly browse your favorite capsules!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('No thanks');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            appManager.sendIntent("registerapplicationprofile", {
+              identifier: "CRC Election",
+              connectactiontitle: "Take part in the new Smart Web democracy!"
+            }, {});
+          }
+        },
+      ]
+    });
+    alert.present();
   }
 
   deleteStorage() {

@@ -57,7 +57,7 @@
           align-items: center;
 
           ion-img, img {
-            border-radius: 100%;
+            border-radius: 10px;
             width: 40px;
             height: 40px;
           }
@@ -92,17 +92,6 @@
           }
         }
       }
-    }
-  }
-
-  .spinner-container {
-    position: fixed;
-    z-index: 2;
-    top: 40%;
-    left: 47%;
-
-    ion-spinner {
-      transform: scale(2);
     }
   }
 }

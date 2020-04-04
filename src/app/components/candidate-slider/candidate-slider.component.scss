@@ -26,7 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 100%;
+            border-radius: 10px;
             overflow: hidden;
 
             img {
@@ -94,6 +94,22 @@
           }
         }
       }
+    }
+  }
+
+  ion-card:active {
+    .can-img {
+      position: fixed;
+      z-index: 2;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform:scale(6);
+      -ms-transform:scale(6); /* IE 9 */
+      -moz-transform:scale(6); /* Firefox */
+      -webkit-transform:scale(6); /* Safari and Chrome */
+      -o-transform:scale(6); /* Opera */
     }
   }
 }
