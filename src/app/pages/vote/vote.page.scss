@@ -107,11 +107,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: btns;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+
+  @keyframes btns {
+    0% { bottom: -100px }
+    100% { bottom: 0px }
+  }
 
   h1 {
     color: white;
     font-size: 14px;
-    font-weight: 900;
+    font-weight: 600;
   }
 }
 
@@ -123,6 +131,10 @@
 .vote-btn {
   background: linear-gradient(to right, #434d72 0%, #1acda0 100%);
   right: 0;
+}
+
+.ripple-tab {
+  overflow: hidden;
 }
 
 // Show vote button if candidates are selected //

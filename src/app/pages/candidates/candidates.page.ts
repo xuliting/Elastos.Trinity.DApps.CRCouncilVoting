@@ -150,7 +150,7 @@ export class CandidatesPage implements OnInit {
       mode: "ios",
       header: "Wallet Access Request",
       message:
-        "Wallet will have to fetch your ELA balance to estimate your voting power",
+        "Wallet will fetch your ELA balance to estimate your voting power",
       buttons: [
         {
           text: "Deny",
@@ -161,7 +161,7 @@ export class CandidatesPage implements OnInit {
           }
         },
         {
-          text: "Approve",
+          text: "Continue",
           handler: () => {
             this.addCandidates();
             /* this.addingCandidates = true;

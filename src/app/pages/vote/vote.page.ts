@@ -128,7 +128,8 @@ export class VotePage implements OnInit, OnDestroy {
     this.candidatesService.selectedCandidates.map((can) => {
       this.votedEla += can.userVotes;
     });
-    return this.totalEla - this.votedEla;
+    let remainder = this.totalEla - this.votedEla;
+    return remainder.toFixed(2);
   }
 
   /****************** Toasts/Alerts *******************/

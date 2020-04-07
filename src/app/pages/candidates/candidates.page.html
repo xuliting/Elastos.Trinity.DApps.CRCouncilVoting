@@ -53,7 +53,7 @@
     <h1 [class.add-title-anim]="addingCandidates">Distribute Votes</h1>
   </div> -->
 
-  <div *ngIf="candidatesService.selectedCandidates.length > 0" class="add-btn ion-activatable ripple-tab" (click)="walletAlert()">
+  <div *ngIf="candidatesService.selectedCandidates.length > 0" class="add-btn ion-activatable ripple" (click)="walletAlert()">
     <h1>DISTRIBUTE VOTES</h1>
     <ion-ripple-effect></ion-ripple-effect>
   </div>

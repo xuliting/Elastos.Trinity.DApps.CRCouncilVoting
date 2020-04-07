@@ -118,7 +118,8 @@
     margin: 25px;
     color: white;
     font-size: 20px;
-    font-weight: 900;
+    font-weight: 600;
+    letter-spacing: 5px;
   }
 
   ion-img {
@@ -151,6 +152,10 @@
       100% { opacity: 0 }
     }
   }
+}
+
+.ripple {
+  overflow: hidden;
 }
 
 .selected {
