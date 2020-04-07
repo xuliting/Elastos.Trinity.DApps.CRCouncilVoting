@@ -48,9 +48,14 @@
     </ion-list>
   </ion-grid>
 
-  <div *ngIf="candidatesService.selectedCandidates.length > 0" class="ballot-box" (click)="addCandidates()">
-    <h1>ADD CANDIDATES</h1>
-    <ion-icon name="checkmark"></ion-icon>
+<!--   <div *ngIf="candidatesService.selectedCandidates.length > 0" class="add-btn" (click)="walletAlert()">
+    <ion-img [class.add-logo-anim]="addingCandidates" src='/assets/images/cybericon.svg'></ion-img>
+    <h1 [class.add-title-anim]="addingCandidates">Distribute Votes</h1>
+  </div> -->
+
+  <div *ngIf="candidatesService.selectedCandidates.length > 0" class="add-btn ion-activatable ripple-tab" (click)="walletAlert()">
+    <h1>DISTRIBUTE VOTES</h1>
+    <ion-ripple-effect></ion-ripple-effect>
   </div>
 
   <div class="spinner-container" *ngIf="candidatesService.candidates.length === 0">

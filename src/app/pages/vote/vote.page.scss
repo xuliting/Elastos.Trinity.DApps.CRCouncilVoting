@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #434d72 0%, #1acda0 100%);
+  background: linear-gradient(to bottom, #434d72 0%, #1acda0 100%);
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
   animation: showHeader;
@@ -35,7 +35,7 @@
 .container {
   min-height: 100%;
   padding-top: 12%;
-  padding-bottom: 20%;
+  padding-bottom: 16%;
   background: #181d20;
 
   .candidate-list {
@@ -94,6 +94,35 @@
       }
     }
   }
+}
+
+.dist-btn, .vote-btn {
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 49.9%;
+  height: 8%;
+  border-top-left-radius: 33px;
+  border-top-right-radius: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    color: white;
+    font-size: 14px;
+    font-weight: 900;
+  }
+}
+
+.dist-btn {
+  background: linear-gradient(to left, #434d72 0%, #1acda0 100%);
+  left: 0;
+}
+
+.vote-btn {
+  background: linear-gradient(to right, #434d72 0%, #1acda0 100%);
+  right: 0;
 }
 
 // Show vote button if candidates are selected //

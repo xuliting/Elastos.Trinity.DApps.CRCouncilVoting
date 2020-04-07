@@ -53,17 +53,30 @@ export class VotePage implements OnInit, OnDestroy {
   }
 
   ionViewWillLeave() {
+    this.castingVote = false;
+    this.votesCasted = false;
     this.candidatesService.candidates = [];
     this.candidatesService.init();
   }
 
+  distribute() {
+    let votes = this.totalEla / this.candidatesService.selectedCandidates.length;
+    console.log('Distributed votes', votes);
+    this.candidatesService.selectedCandidates.forEach((candidate) => {
+      candidate.userVotes = votes;
+    });
+  }
+
   /****************** Cast Votes *******************/
-  castVote() {
+  cast() {
     let votedCandidates = {};
     this.candidatesService.selectedCandidates.map((candidate) => {
       if(candidate.userVotes && candidate.userVotes > 0) {
-        let _candidate = { [candidate.cid] : candidate.userVotes.toString() }
+        let userVotes = candidate.userVotes * 100000000;
+        let _candidate = { [candidate.cid] : userVotes.toString() }
         votedCandidates = { ...votedCandidates, ..._candidate }
+      } else {
+         candidate.userVotes = 0;
       }
     });
 
@@ -101,7 +114,7 @@ export class VotePage implements OnInit, OnDestroy {
             });
           }
         );
-      }, 2000);
+      }, 1000);
     }
   }
 
