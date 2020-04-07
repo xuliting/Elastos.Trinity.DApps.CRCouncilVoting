@@ -1,10 +1,3 @@
 # About
 
-This is a basic sample / quickstart application for **Elastos Trinity**. 
-
-It's based on a simple ionic HTML5 tab application, but it also contains a default manifest file ready and is therefore 
-ready to be packaged as a EPK file (Elastos Trinity package format), and ran inside the Trinity application (you have to 
-install that application first on your mobile device).
-
-Read more on [the Elastos developer website](https://developer.elastos.org) to learn more about building and running 
-your own Trinity applications.
+This is the official CRC Election App of elastOS. Users of the Elastos community can take part in electing candidates to the Cyber Republic Council, helping democratize the new internet. Voting power is determined by the user's ELA balance which is fetched from the elastOS wallet. 1 ELA = 1 vote, the more ELA a user owns, the more their voice is heard.
