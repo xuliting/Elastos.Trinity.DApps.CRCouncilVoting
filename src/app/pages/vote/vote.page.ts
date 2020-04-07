@@ -98,6 +98,7 @@ export class VotePage implements OnInit, OnDestroy {
           (res) => {
             this.zone.run(() => {
               if(res.result.txid === null ) {
+                this.castingVote = false;
                 this.voteFailedToast('Vote processing was incomplete');
               } else {
                 console.log('Insent sent sucessfully', res);
