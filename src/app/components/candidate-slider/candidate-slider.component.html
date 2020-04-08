@@ -1,5 +1,5 @@
 <ion-slides #slider [options]="slideOpts" (ionSlideNextEnd)="loadNext()" class="can-slides">
-  <ion-slide *ngFor="let candidate of displayedArr">
+  <ion-slide *ngFor="let candidate of displayedCandidates">
     <ion-card class="ion-text-center" color="primary">
       <ion-grid>
         <ion-row class="header-container">
@@ -16,7 +16,7 @@
         <ion-card-content>
           <ion-row class="detail-container">
             <p>Current Rank</p>
-            <h3>#{{ candidatesService.candidates.indexOf(candidate) }}</h3>
+            <h3>#{{ candidatesService.candidates.indexOf(candidate) + 1 }}</h3>
           </ion-row>
           <ion-row class="detail-container">
             <p>Current Votes</p>

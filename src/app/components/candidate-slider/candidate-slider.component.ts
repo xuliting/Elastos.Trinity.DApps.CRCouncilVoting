@@ -15,7 +15,7 @@ export class CandidateSliderComponent implements OnInit {
   @Input() candidate: Candidate;
   @Input() candidateIndex: number;
 
-  public displayedArr: Candidate[] = [];
+  public displayedCandidates: Candidate[] = [];
 
   slideOpts = {
     initialSlide: 1,
@@ -27,18 +27,23 @@ export class CandidateSliderComponent implements OnInit {
   constructor(public candidatesService: CandidatesService) { }
 
   ngOnInit() {
-    this.displayedArr = this.candidatesService.candidates.slice(0, this.candidateIndex + 2);
-    this.slideOpts.initialSlide = this.displayedArr.indexOf(this.candidate);
+    this.displayedCandidates = this.candidatesService.candidates.slice(0, this.candidateIndex + 2);
+    this.slideOpts.initialSlide = this.displayedCandidates.indexOf(this.candidate);
   }
 
   // Increment candidates array when sliding forward //
   loadNext() {
-    let lastCan: Candidate = this.displayedArr.slice(-1)[0];
-    let nextCandidateIndex: number = this.candidatesService.candidates.indexOf(lastCan) + 1;
-    if(nextCandidateIndex) {
-      this.displayedArr.push(this.candidatesService.candidates[nextCandidateIndex]);
+    // Find last candidate in displayed slides
+    let lastCandidate: Candidate = this.displayedCandidates.slice(-1)[0];
+    // Use last candidate to find next candidate
+    let nextCandidateIndex: number = this.candidatesService.candidates.indexOf(lastCandidate) + 1;
+    // If next candidate exists, push it to slide array
+    if(this.candidatesService.candidates[nextCandidateIndex]) {
+      this.displayedCandidates.push(this.candidatesService.candidates[nextCandidateIndex]);
+    } else {
+      return;
     }
-    console.log('last Candidate', lastCan);
+    console.log('last Candidate', lastCandidate);
     console.log('next Candidate', this.candidatesService.candidates[nextCandidateIndex]);
   }
 
