@@ -1,3 +1,9 @@
+<ion-header *ngIf="candidatesService.candidates.length > 0">
+  <div class="ion-text-center header">
+    <ion-label>Cyber Republic Candidates</ion-label>
+  </div>
+</ion-header>
+
 <ion-content>
   <ion-grid class="container ion-no-padding">
     <app-candidate-slider

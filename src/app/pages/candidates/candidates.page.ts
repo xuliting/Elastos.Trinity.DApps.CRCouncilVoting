@@ -34,7 +34,7 @@ export class CandidatesPage implements OnInit {
 
   ionViewWillEnter() {
     this.addingCandidates = false;
-    titleBarManager.setTitle("Candidates");
+    titleBarManager.setTitle("CRC Voting");
     titleBarManager.setNavigationMode(
       TitleBarPlugin.TitleBarNavigationMode.HOME
     );

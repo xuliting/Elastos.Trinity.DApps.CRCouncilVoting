@@ -84,6 +84,7 @@ export class CandidatesService {
         can.location = 'United States'
       }
       if (can.nickname === 'SunnyFengHan') {
+        can.imageUrl = '/assets/candidates/SunnyFengHan.png';
         can.location = 'United States'
       }
       if (can.nickname === 'Orchard Trinity') {
@@ -140,6 +141,9 @@ export class CandidatesService {
       if (can.nickname === 'ELAFISH') {
         can.location = 'Canada'
         can.imageUrl = '/assets/candidates/elafish.png';
+      }
+      if (can.nickname === 'CR Frigate') {
+        can.location = 'Hong Kong'
       }
     });
   }
