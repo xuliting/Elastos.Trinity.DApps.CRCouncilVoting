@@ -12,7 +12,8 @@
           <ion-row class="ion-no-padding">
             <ion-col size="6.5" class="candidate-title">
               <ion-img *ngIf="!candidate.imageUrl" src='/assets/icon/avatar.png'></ion-img>
-              <img-loader *ngIf="candidate.imageUrl" useImg><img [src]="candidate.imageUrl"></img-loader>
+              <img *ngIf="candidate.imageUrl" [src]="candidate.imageUrl">
+             <!--  <img-loader *ngIf="candidate.imageUrl" useImg><img [src]="candidate.imageUrl"></img-loader> -->
               <ion-label>
                 <h4>{{ candidate.nickname }}</h4>
               </ion-label>

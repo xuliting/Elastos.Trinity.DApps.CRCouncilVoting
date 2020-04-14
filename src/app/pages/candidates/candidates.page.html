@@ -27,7 +27,8 @@
               </ion-col>
               <ion-col size="2" class="img-container" (click)="_showCandidate(candidatesService.candidates.indexOf(candidate), candidate)">
                 <ion-img *ngIf="!candidate.imageUrl" src='/assets/icon/avatar.png'></ion-img>
-                <img-loader *ngIf="candidate.imageUrl" useImg><img [src]="candidate.imageUrl"></img-loader>
+                <img *ngIf="candidate.imageUrl" [src]="candidate.imageUrl">
+               <!--  <img-loader *ngIf="candidate.imageUrl" useImg><img [src]="candidate.imageUrl"></img-loader> -->
               </ion-col>
               <ion-col size="8" (click)="_showCandidate(candidatesService.candidates.indexOf(candidate), candidate)">
                 <ion-label>
