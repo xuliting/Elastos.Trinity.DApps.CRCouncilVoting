@@ -33,7 +33,8 @@ export class VotePage implements OnInit, OnDestroy {
     console.log('My Candidates', this.candidatesService.selectedCandidates);
     this.route.queryParams.subscribe(params => {
       if (params) {
-        this.totalEla = Math.floor(parseInt(params.elaamount) / 100000000);
+        const fees = 0.001;// it is enough.
+        this.totalEla = Math.floor(parseInt(params.elaamount) / 100000000 - fees);
         console.log('ELA Balance', this.totalEla);
       }
     });
@@ -73,7 +74,7 @@ export class VotePage implements OnInit, OnDestroy {
     this.candidatesService.selectedCandidates.map((candidate) => {
       if(candidate.userVotes && candidate.userVotes > 0) {
         let userVotes = candidate.userVotes * 100000000;
-        let _candidate = { [candidate.cid] : userVotes.toString() }
+        let _candidate = { [candidate.cid] : userVotes.toFixed(0) } //SELA, can't with fractions
         votedCandidates = { ...votedCandidates, ..._candidate }
       } else {
          candidate.userVotes = 0;
