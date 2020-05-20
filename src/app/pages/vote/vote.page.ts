@@ -45,8 +45,8 @@ export class VotePage implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     titleBarManager.setTitle('My Candidates');
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
     titleBarManager.setBackgroundColor("#181d20");
+    this.setTitleBarBackKeyShown(true);
   }
 
   ionViewDidEnter() {
@@ -58,6 +58,19 @@ export class VotePage implements OnInit, OnDestroy {
     this.votesCasted = false;
     this.candidatesService.candidates = [];
     this.candidatesService.init();
+    this.setTitleBarBackKeyShown(false);
+  }
+
+  setTitleBarBackKeyShown(show: boolean) {
+    if (show) {
+        titleBarManager.setIcon(TitleBarPlugin.TitleBarIconSlot.INNER_LEFT, {
+            key: "back",
+            iconPath: TitleBarPlugin.BuiltInIcon.BACK
+        });
+    }
+    else {
+        titleBarManager.setIcon(TitleBarPlugin.TitleBarIconSlot.INNER_LEFT, null);
+    }
   }
 
   distribute() {

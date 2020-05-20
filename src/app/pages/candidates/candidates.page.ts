@@ -39,16 +39,15 @@ export class CandidatesPage implements OnInit {
       TitleBarPlugin.TitleBarNavigationMode.HOME
     );
     titleBarManager.setBackgroundColor("#181d20");
-    titleBarManager.setupMenuItems(
-      [
-        {
-          key: "registerApp",
-          iconPath: "/assets/images/register.png",
-          title: "Register Capsule"
-        }
-      ],
-      this.askToRegister
-    );
+    // titleBarManager.setupMenuItems(
+    //   [
+    //     {
+    //       key: "registerApp",
+    //       iconPath: "/assets/images/register.png",
+    //       title: "Register Capsule"
+    //     }
+    //   ],
+    // );
   }
 
   ionViewDidEnter() {
@@ -57,10 +56,10 @@ export class CandidatesPage implements OnInit {
 
   ionViewDidLeave() {}
 
-  askToRegister = () => {
-    console.log("Menu item clicked");
-    this.registerAppAlert();
-  };
+  // askToRegister = () => {
+  //   console.log("Menu item clicked");
+  //   this.registerAppAlert();
+  // };
 
   /****************** Select Candidate *******************/
   addCandidate(candidate: Candidate) {
@@ -175,38 +174,38 @@ export class CandidatesPage implements OnInit {
     alert.present();
   }
 
-  async registerAppAlert() {
-    const alert = await this.alertCtrl.create({
-      mode: "ios",
-      header: "Would you like to add CRC Voting to your profile?",
-      message:
-        "Registering a capsule will allow your followers via Contacts to effortlessly browse your favorite capsules!",
-      buttons: [
-        {
-          text: "Cancel",
-          role: "cancel",
-          cssClass: "secondary",
-          handler: () => {
-            console.log("No thanks");
-          }
-        },
-        {
-          text: "Yes",
-          handler: () => {
-            appManager.sendIntent(
-              "registerapplicationprofile",
-              {
-                identifier: "CRC Election",
-                connectactiontitle: "Take part in the new Smart Web democracy!"
-              },
-              {}
-            );
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
+  // async registerAppAlert() {
+  //   const alert = await this.alertCtrl.create({
+  //     mode: "ios",
+  //     header: "Would you like to add CRC Voting to your profile?",
+  //     message:
+  //       "Registering a capsule will allow your followers via Contacts to effortlessly browse your favorite capsules!",
+  //     buttons: [
+  //       {
+  //         text: "Cancel",
+  //         role: "cancel",
+  //         cssClass: "secondary",
+  //         handler: () => {
+  //           console.log("No thanks");
+  //         }
+  //       },
+  //       {
+  //         text: "Yes",
+  //         handler: () => {
+  //           appManager.sendIntent(
+  //             "registerapplicationprofile",
+  //             {
+  //               identifier: "CRC Election",
+  //               connectactiontitle: "Take part in the new Smart Web democracy!"
+  //             },
+  //             {}
+  //           );
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   alert.present();
+  // }
 
   deleteStorage() {
     this.storage.setVotes([]);

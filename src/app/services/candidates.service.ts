@@ -3,10 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Candidate } from '../models/candidates.model';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { Selected } from '../models/selected.model';
 
 declare let appManager: AppManagerPlugin.AppManager;
+declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class CandidatesService {
     private http: HttpClient,
     private router: Router,
     private zone: NgZone,
+    private alertCtrl: AlertController,
     private storageService: StorageService
   ) { }
 
@@ -31,18 +33,59 @@ export class CandidatesService {
 
     if (this.platform.platforms().indexOf("cordova") >= 0) {
       console.log("Listening to intent events");
-      appManager.setListener((msg) => {
-        this.onMessageReceived(msg);
+      titleBarManager.setOnItemClickedListener((menuIcon)=>{
+        switch (menuIcon.key) {
+          case "back":
+            this.router.navigate(['candidates']);
+            break;
+          case "registerApp":
+            this.registerAppAlert();
+            break;
+        }
       });
+      titleBarManager.setupMenuItems(
+        [
+          {
+            key: "registerApp",
+            iconPath: "/assets/images/register.png",
+            title: "Register Capsule"
+          }
+        ],
+      );
     }
   }
 
-  onMessageReceived(msg: AppManagerPlugin.ReceivedMessage) {
-    if (msg.message === "navback") {
-      this.zone.run(() => {
-        this.router.navigate(['candidates']);
-      });
-    }
+  async registerAppAlert() {
+    const alert = await this.alertCtrl.create({
+      mode: "ios",
+      header: "Would you like to add CRC Voting to your profile?",
+      message:
+        "Registering a capsule will allow your followers via Contacts to effortlessly browse your favorite capsules!",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: () => {
+            console.log("No thanks");
+          }
+        },
+        {
+          text: "Yes",
+          handler: () => {
+            appManager.sendIntent(
+              "registerapplicationprofile",
+              {
+                identifier: "CRC Election",
+                connectactiontitle: "Take part in the new Smart Web democracy!"
+              },
+              {}
+            );
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   getSelectedCandidates() {
