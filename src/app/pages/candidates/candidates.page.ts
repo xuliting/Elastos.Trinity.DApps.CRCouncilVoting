@@ -27,6 +27,7 @@ export class CandidatesPage implements OnInit {
   public showCandidate = false;
   public candidateIndex: number;
   public addingCandidates = false;
+  onItemClickedListener: any;
 
   ngOnInit() {
     this.showCandidate = false;
@@ -39,27 +40,30 @@ export class CandidatesPage implements OnInit {
       TitleBarPlugin.TitleBarNavigationMode.HOME
     );
     titleBarManager.setBackgroundColor("#181d20");
-    // titleBarManager.setupMenuItems(
-    //   [
-    //     {
-    //       key: "registerApp",
-    //       iconPath: "/assets/images/register.png",
-    //       title: "Register Capsule"
-    //     }
-    //   ],
-    // );
+    titleBarManager.setupMenuItems(
+      [
+        {
+          key: "registerApp",
+          iconPath: "/assets/images/register.png",
+          title: "Register Capsule"
+        }
+      ],
+    );
+    titleBarManager.addOnItemClickedListener(this.onItemClickedListener = (menuIcon)=>{
+      if (menuIcon.key === "registerApp") {
+        console.log("Menu item clicked");
+        this.registerAppAlert();
+      }
+    });
   }
 
   ionViewDidEnter() {
     appManager.setVisible("show");
   }
 
-  ionViewDidLeave() {}
-
-  // askToRegister = () => {
-  //   console.log("Menu item clicked");
-  //   this.registerAppAlert();
-  // };
+  ionViewWillLeave() {
+    titleBarManager.removeOnItemClickedListener(this.onItemClickedListener);
+  }
 
   /****************** Select Candidate *******************/
   addCandidate(candidate: Candidate) {
@@ -174,38 +178,38 @@ export class CandidatesPage implements OnInit {
     alert.present();
   }
 
-  // async registerAppAlert() {
-  //   const alert = await this.alertCtrl.create({
-  //     mode: "ios",
-  //     header: "Would you like to add CRC Voting to your profile?",
-  //     message:
-  //       "Registering a capsule will allow your followers via Contacts to effortlessly browse your favorite capsules!",
-  //     buttons: [
-  //       {
-  //         text: "Cancel",
-  //         role: "cancel",
-  //         cssClass: "secondary",
-  //         handler: () => {
-  //           console.log("No thanks");
-  //         }
-  //       },
-  //       {
-  //         text: "Yes",
-  //         handler: () => {
-  //           appManager.sendIntent(
-  //             "registerapplicationprofile",
-  //             {
-  //               identifier: "CRC Election",
-  //               connectactiontitle: "Take part in the new Smart Web democracy!"
-  //             },
-  //             {}
-  //           );
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
+  async registerAppAlert() {
+    const alert = await this.alertCtrl.create({
+      mode: "ios",
+      header: "Would you like to add CRC Voting to your profile?",
+      message:
+        "Registering a capsule will allow your followers via Contacts to effortlessly browse your favorite capsules!",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: () => {
+            console.log("No thanks");
+          }
+        },
+        {
+          text: "Yes",
+          handler: () => {
+            appManager.sendIntent(
+              "registerapplicationprofile",
+              {
+                identifier: "CRC Election",
+                connectactiontitle: "Take part in the new Smart Web democracy!"
+              },
+              {}
+            );
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 
   deleteStorage() {
     this.storage.setVotes([]);

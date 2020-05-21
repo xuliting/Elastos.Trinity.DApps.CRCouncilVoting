@@ -1,9 +1,9 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Candidate } from '../models/candidates.model';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
-import { Platform, AlertController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { Selected } from '../models/selected.model';
 
 declare let appManager: AppManagerPlugin.AppManager;
@@ -18,8 +18,6 @@ export class CandidatesService {
     private platform: Platform,
     private http: HttpClient,
     private router: Router,
-    private zone: NgZone,
-    private alertCtrl: AlertController,
     private storageService: StorageService
   ) { }
 
@@ -33,59 +31,12 @@ export class CandidatesService {
 
     if (this.platform.platforms().indexOf("cordova") >= 0) {
       console.log("Listening to intent events");
-      titleBarManager.setOnItemClickedListener((menuIcon)=>{
-        switch (menuIcon.key) {
-          case "back":
-            this.router.navigate(['candidates']);
-            break;
-          case "registerApp":
-            this.registerAppAlert();
-            break;
+      titleBarManager.addOnItemClickedListener((menuIcon)=>{
+        if (menuIcon.key === "back") {
+          this.router.navigate(['candidates']);
         }
       });
-      titleBarManager.setupMenuItems(
-        [
-          {
-            key: "registerApp",
-            iconPath: "/assets/images/register.png",
-            title: "Register Capsule"
-          }
-        ],
-      );
     }
-  }
-
-  async registerAppAlert() {
-    const alert = await this.alertCtrl.create({
-      mode: "ios",
-      header: "Would you like to add CRC Voting to your profile?",
-      message:
-        "Registering a capsule will allow your followers via Contacts to effortlessly browse your favorite capsules!",
-      buttons: [
-        {
-          text: "Cancel",
-          role: "cancel",
-          cssClass: "secondary",
-          handler: () => {
-            console.log("No thanks");
-          }
-        },
-        {
-          text: "Yes",
-          handler: () => {
-            appManager.sendIntent(
-              "registerapplicationprofile",
-              {
-                identifier: "CRC Election",
-                connectactiontitle: "Take part in the new Smart Web democracy!"
-              },
-              {}
-            );
-          }
-        }
-      ]
-    });
-    alert.present();
   }
 
   getSelectedCandidates() {
